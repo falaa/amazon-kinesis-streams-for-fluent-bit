@@ -201,7 +201,7 @@ func (outputPlugin *OutputPlugin) AddRecord(record map[interface{}]interface{}, 
 	if len(outputPlugin.records) == maximumRecordsPerPut || (outputPlugin.dataLength+newRecordSize) > maximumPutRecordBatchSize {
 		err = outputPlugin.sendCurrentBatch()
 		if err != nil {
-			logrus.Errorf("[kinesis %d] %v\n", outputPlugin.PluginID, err)
+			logrus.Errorf("[kinesis %d] %d %d %d - %v\n", outputPlugin.PluginID, len(outputPlugin.records), outputPlugin.dataLength, outputPlugin.dataLength+newRecordSize, err)
 			// If FluentBit fails to send logs, it will retry rather than discarding the logs
 			return fluentbit.FLB_RETRY
 		}
